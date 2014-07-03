@@ -1,23 +1,50 @@
-var path = require('path'),
-    configuration = {
-        qa: {
-            dbConnectionString: 'mongodb://3QA:5d4b7d67325f227761473a2866@novus.modulusmongo.net:27017/asix2Odo',
-            publicPath: path.resolve("./public"),
-            viewPath: path.resolve('./views'),
-            port: process.env.PORT || 8080,
-        },
-        local: {
-            dbConnectionString: "mongodb://127.0.0.1/3Scape_dev",
-            publicPath: path.resolve("./public"),
-            viewPath: path.resolve('./views'),
-            port: process.env.PORT || 8080,            
-        },
-        // prod: {
-        //     dbConnectionString: "TBD",
-        //     publicPath: path.resolve("./public"),
-        //     viewPath: path.resolve('./views'),
-        //     port: process.env.PORT || 8080,
-        // },
-    };
+'use strict';
 
-module.exports = configuration;
+exports.port = process.env.PORT || 3000;
+exports.mongodb = {
+  uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost/drywall'
+};
+exports.companyName = 'Acme, Inc.';
+exports.projectName = 'Drywall';
+exports.systemEmail = 'testdrywall3s@gmail.com';
+exports.cryptoKey = 'k3yb0ardc4t';
+exports.loginAttempts = {
+  forIp: 50,
+  forIpAndUser: 7,
+  logExpiration: '20m'
+};
+exports.requireAccountVerification = false;
+exports.smtp = {
+  from: {
+    name: process.env.SMTP_FROM_NAME || exports.projectName +' Website',
+    address: process.env.SMTP_FROM_ADDRESS || 'testdrywall3s@gmail.com'
+  },
+  credentials: {
+    user: process.env.SMTP_USERNAME || 'testdrywall3s@gmail.com',
+    password: process.env.SMTP_PASSWORD || 'jontestdrywall',
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    ssl: true
+  }
+};
+exports.oauth = {
+  twitter: {
+    key: process.env.TWITTER_OAUTH_KEY || '',
+    secret: process.env.TWITTER_OAUTH_SECRET || ''
+  },
+  facebook: {
+    key: process.env.FACEBOOK_OAUTH_KEY || '',
+    secret: process.env.FACEBOOK_OAUTH_SECRET || ''
+  },
+  github: {
+    key: process.env.GITHUB_OAUTH_KEY || '',
+    secret: process.env.GITHUB_OAUTH_SECRET || ''
+  },
+  google: {
+    key: process.env.GOOGLE_OAUTH_KEY || '',
+    secret: process.env.GOOGLE_OAUTH_SECRET || ''
+  },
+  tumblr: {
+    key: process.env.TUMBLR_OAUTH_KEY || '',
+    secret: process.env.TUMBLR_OAUTH_SECRET || ''
+  }
+};

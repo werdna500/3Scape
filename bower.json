@@ -1,11 +1,16 @@
 {
-	"name": "starter-node-angular",
-	"version": "1.0.0",
-	"dependencies": {
-		"bootstrap": "latest",
-		"font-awesome": "latest",
-		"animate.css": "latest",
-		"angular": "latest",
-		"angular-route": "latest"	
-	}
+  "name": "Drywall",
+  "dependencies": {
+    "angular": "latest",
+    "angular-route": "latest",
+    "animate.css": "latest",
+    "backbone": "~1.1.0",
+    "bootstrap": "~3.1.1",
+    "font-awesome": "~4.0.3",
+    "html5shiv": "~3.7.0",
+    "jquery": "~1.11.0",
+    "momentjs": "~2.5.0",
+    "respond": "~1.4.2",
+    "underscore": "~1.5.2"
+  }
 }

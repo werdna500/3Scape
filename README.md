@@ -1,52 +1,126 @@
+Drywall
+=============
 
-3Scape is a way to unlock your imagination by making and sharing interactive, 3D stories over the web.
+A website and user system for Node.js. What you create with Drywall is more important than Drywall. [See a bird's eye view.](http://jedireza.github.io/drywall/)
 
+[![Dependency Status](https://david-dm.org/jedireza/drywall.svg?theme=shields.io)](https://david-dm.org/jedireza/drywall)
+[![devDependency Status](https://david-dm.org/jedireza/drywall/dev-status.svg?theme=shields.io)](https://david-dm.org/jedireza/drywall#info=devDependencies)
 
-#Installation/Setup for Windows
+Technology
+------------
 
-1. Download [3Scape] (http://github.com/3Scape) from our github 
+| On The Server | On The Client  | Development |
+| ------------- | -------------- | ----------- |
+| Express       | Bootstrap      | Grunt       |
+| Jade          | Backbone.js    | Bower       |
+| Mongoose      | jQuery         |             |
+| Passport      | Underscore.js  |             |
+| Async         | Font-Awesome   |             |
+| EmailJS       | Moment.js      |             |
 
-2. Activate Internet Information Services (IIS) 
-  * Open Control Panel
-  * Search for Programs and Features 
-  * Click Turn Window Features on or off
-  * Check the folder named Internet Information Services & click OK 
-  
-3. Adding 3Scape into IIS
-  * Open IIS and click the carat to your localhost, click again on sites to see "Default Web Site" 
-  * Right click on Default Web Site and select Add Application
-  * Enter the directory where 3Scape is located under Physical path
-  * Set your alias as 3Scape (anything works but 3Scape is easiest) 
-  * Select the name of your alias in the hierarchy and select directory browsing
-  * Click enable on the right hand side 
-  
-   Adding 3Scape into XAMPP 
-  * Turn on Apache and place the 3Scape folder into xampp/htdocs/ 
-  * Access the default html document with the address  http://localhost/3scape/default.htm
+Live Demos
+------------
 
-4. Trying it out 
-  * Open your browser of choice and type in localhost/*youralias*/ 
+| Platform                       | Username | Password |
+| ------------------------------ | -------- | -------- |
+| https://drywall.herokuapp.com/ | root     | h3r00t   |
+| https://drywall.nodejitsu.com/ | root     | j1ts00t  |
+| https://drywall.onmodulus.net/ | root     | m0dr00t  |
 
-##TroubleShooting 
+__Note:__ The live demos have been modified so you cannot change the root user, the root user's linked Administrator role or the root Admin Group. This was done in order to keep the app ready to test at all times.
 
- 1. Restarting the Default Website in IIS  
-   *Click on your default website and select "Restart" on the right side 
-  
- 2. Adding the .lwo MIME type 
-    * With 3Scape selected in IIS, double click MIME types and search for the extension ".lwo"
-    * If it is not there click "Add". Under File name extension type ".lwo" and in MIME type insert "image-x/lwo"  
- 
- 3. Giving IIS full access permissions 
-    * Right click on 3Scape and select edit permissions and select the Security tab
-    * Click Edit then Add 
-    * Type in the following: IIS_IUSRS and hit OK
-    * Select IIS_IUSRS in group and users then ,under Permissions, select Full Controll 
-    * Click Apply then OK.
-    * 
-    Note:
-    You may have to add another permission in order for the #3 to work properly.
-    Simply repeat the steps in #3, but instead type IUSR
-    
-   
+Requirements
+------------
 
+You need [Node.js](http://nodejs.org/download/) and [MongoDB](http://www.mongodb.org/downloads) installed and running.
 
+We use [Grunt](http://gruntjs.com/) as our task runner. Get the CLI (command line interface).
+
+```bash
+$ npm install grunt-cli -g
+```
+
+We use [Bower](http://bower.io/) as our front-end package manager. Get the CLI (command line interface).
+
+```bash
+$ npm install bower -g
+```
+
+We use [`bcrypt`](https://github.com/ncb000gt/node.bcrypt.js) for hashing secrets. If you have issues during installation related to `bcrypt` then [refer to this wiki page](https://github.com/jedireza/drywall/wiki/bcrypt-Installation-Trouble).
+
+Installation
+------------
+
+```bash
+$ git clone git@github.com:jedireza/drywall.git && cd ./drywall
+$ npm install && bower install
+$ mv ./config.example.js ./config.js #set mongodb and email credentials
+$ grunt
+```
+
+Setup
+------------
+
+You need a few records in the database to start using the user system.
+
+Run these commands on mongo. __Obviously you should use your email address.__
+
+```js
+use drywall; //your mongo db name
+```
+
+```js
+db.admingroups.insert({ _id: 'root', name: 'Root' });
+db.admins.insert({ name: {first: 'Root', last: 'Admin', full: 'Root Admin'}, groups: ['root'] });
+var rootAdmin = db.admins.findOne();
+db.users.save({ username: 'root', isActive: 'yes', email: 'your@email.addy', roles: {admin: rootAdmin._id} });
+var rootUser = db.users.findOne();
+rootAdmin.user = { id: rootUser._id, name: rootUser.username };
+db.admins.save(rootAdmin);
+```
+
+Now just use the reset password feature to set a password.
+
+ - `http://localhost:3000/login/forgot/`
+ - Submit your email address and wait a second.
+ - Go check your email and get the reset link.
+ - `http://localhost:3000/login/reset/:email/:token/`
+ - Set a new password.
+
+Login. Customize. Enjoy.
+
+Philosophy
+------------
+
+ - Create a website and user system.
+ - Write code in a simple and consistent way.
+ - Only create minor utilities or plugins to avoid repetitiveness.
+ - Find and use good tools.
+ - Use tools in their native/default behavior.
+
+Features
+------------
+
+ - Basic front end web pages.
+ - Contact page has form to email.
+ - Login system with forgot password and reset password.
+ - Signup and Login with Facebook, Twitter, GitHub, Google and Tumblr.
+ - Optional email verification during signup flow.
+ - User system with separate account and admin roles.
+ - Admin groups with shared permission settings.
+ - Administrator level permissions that override group permissions.
+ - Global admin quick search component.
+
+Contributing
+------------
+
+Contributions welcome. Make sure your code passes `grunt lint` without error.
+
+If you're changing something non-trivial or user-facing, you may want to submit an issue first.
+
+License
+------------
+
+MIT
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/d41f60f22a2148e2e2dc6b705cd01481 "githalytics.com")](http://githalytics.com/jedireza/drywall)
