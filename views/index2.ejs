@@ -996,7 +996,7 @@ $(function () {
       
         <script type="text/javascript">
           window.user = null
-          <% if (user) { %>
+          <% if (user.username) { %>
             window.user = <%-(JSON.stringify(user))%>
           <% } %>
         </script>
