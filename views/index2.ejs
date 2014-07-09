@@ -535,11 +535,11 @@
                               <a type="button" class="btn navbar-btn btn-danger" style="margin-right:0px" href="/profile">
                               Welcome, {{ global.currentUser().username }}
                               
-                              <a href="/logout" class="btn btn-default navbar-btn" style="margin-right:3px">Logout</a>
+                              <a href="/logout/" class="btn btn-default navbar-btn" style="margin-right:3px">Logout</a>
                               
                             </div>
                             <div ng-hide="global.isSignedIn()">
-                              <a type="button" class="btn navbar-btn btn-danger" style="margin-right:3px" href="/login">
+                              <a type="button" class="btn navbar-btn btn-danger" style="margin-right:3px" href="/login/">
                                 Please Login
                               </a>
                             </div>                          
@@ -636,8 +636,8 @@
         </div>
           
           <div class="col-sm-12" style="height:100%; width:100%; padding:0;padding-right: 0;" id="BwContainer" ondblclick="handleEvent(event);" onclick="handleEvent(event);" onmousedown="handleEvent(event);" onmouseup="handleEvent(event);" onmousemove="handleEvent(event);">
-                   <!-- <canvas id="Canvas">
-                  </canvas> -->
+                   <canvas id="Canvas">
+                  </canvas>
           </div>
           <div id="present-tray">
             <span class="glyphicon glyphicon-play dvd" title="Play" onclick="if(isPlaying == 0){playSlides();} else if(isPlaying == 2){isPlaying = 1;}"></span>

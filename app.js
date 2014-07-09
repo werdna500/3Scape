@@ -41,7 +41,7 @@ require('./models')(app, mongoose);
 app.disable('x-powered-by');
 app.set('port', config.port);
 app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade'); cannot use as default with multiple template types
+app.set('view engine', 'jade'); //cannot use as default with multiple template types
 app.engine('jade', cons.jade);
 app.engine('ejs', cons.ejs);
 
@@ -54,6 +54,7 @@ app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(session({
   secret: config.cryptoKey,
+  // store: new mongoStore({ url: config.mongodb.uri })
   store: new mongoStore({ url: configLoader.dbConnectionString })
 }));
 app.use(passport.initialize());
@@ -65,6 +66,8 @@ app.use(function(req, res, next) {
   res.locals.user = {};
   res.locals.user.defaultReturnUrl = req.user && req.user.defaultReturnUrl();
   res.locals.user.username = req.user && req.user.username;
+  res.locals.user.email = req.user && req.user.email
+  res.locals.user.roles = req.user && req.user.roles
   next();
 });
 
@@ -90,7 +93,7 @@ app.utility.slugify = require('./util/slugify');
 app.utility.workflow = require('./util/workflow');
 
 //listen up
-app.server.listen(configLoader.port, function(){
+app.server.listen(port, function(){
   //and... we're live
   console.log("We're on port " + port)
 });
