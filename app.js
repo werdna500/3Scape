@@ -23,7 +23,7 @@ app.server = http.createServer(app);
 
 // configuration ===============================================================
 var configLoader = require('./configLoader')(process.env.NODE_ENV || "local") //Environment
-var port     = config.port || 8080;
+var port     = configLoader.port || 8080;
 // mongoose.connect(config.dbConnectionString); // connect to our database
 
 //setup mongoose
@@ -90,6 +90,7 @@ app.utility.slugify = require('./util/slugify');
 app.utility.workflow = require('./util/workflow');
 
 //listen up
-app.server.listen(app.config.port, function(){
+app.server.listen(configLoader.port, function(){
   //and... we're live
+  console.log("We're on port " + port)
 });

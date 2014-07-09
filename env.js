@@ -10,7 +10,7 @@ var path = require('path'),
             dbConnectionString: "mongodb://127.0.0.1/3Scape_dev",
             publicPath: path.resolve("./public"),
             viewPath: path.resolve('./views'),
-            port: process.env.PORT || 8080,            
+            port: process.env.PORT || 8000,            
         },
         // prod: {
         //     dbConnectionString: "TBD",
