@@ -534,7 +534,9 @@
                             <div ng-show="global.isSignedIn()">
                               <a type="button" class="btn navbar-btn btn-danger" style="margin-right:0px" href="/profile">
                               Welcome, {{ global.currentUser().username }}
+                              
                               <a href="/logout" class="btn btn-default navbar-btn" style="margin-right:3px">Logout</a>
+                              
                             </div>
                             <div ng-hide="global.isSignedIn()">
                               <a type="button" class="btn navbar-btn btn-danger" style="margin-right:3px" href="/login">
