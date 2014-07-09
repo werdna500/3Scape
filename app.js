@@ -21,8 +21,14 @@ app.config = config;
 //setup the web server
 app.server = http.createServer(app);
 
+// configuration ===============================================================
+var configLoader = require('./configLoader')(process.env.NODE_ENV || "local") //Environment
+var port     = config.port || 8080;
+// mongoose.connect(config.dbConnectionString); // connect to our database
+
 //setup mongoose
-app.db = mongoose.createConnection(config.mongodb.uri);
+// app.db = mongoose.createConnection(config.mongodb.uri);
+app.db = mongoose.createConnection(configLoader.dbConnectionString);
 app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
 app.db.once('open', function () {
   //and... we have a data store
@@ -48,7 +54,7 @@ app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(session({
   secret: config.cryptoKey,
-  store: new mongoStore({ url: config.mongodb.uri })
+  store: new mongoStore({ url: configLoader.dbConnectionString })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
