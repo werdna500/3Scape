@@ -28,7 +28,87 @@ function ensureAccount(req, res, next) {
   res.redirect('/');
 }
 
+// var Project = require('./schema/Project');
 exports = module.exports = function(app, passport) {
+  app.get('/api/projects', function(req, res) {
+
+    // use mongoose to get all projects in the database
+    app.db.models.Project.find(function(err, projects) {
+
+      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+      if (err)
+        res.send(err)
+
+      res.json(projects); // return all projects in JSON format
+    });
+  });
+
+  //Show a single project
+  // main.get('/api/projects/:project_id', function(req, res) {
+  //  Project.findById(req.params.project_id, function(err, project) {
+  //    if (err)
+  //      res.send(err);
+  //    res.json(project);
+  //  });
+  // });
+
+  // create project and send back all projects after creation
+  app.post('/api/projects', function(req, res) {
+    // currentUser = req.user
+    // create a project, information comes from AJAX request from Angular
+    app.db.models.Project.create({
+      // _creator : currentUser._id,
+      title : req.body.title,
+    }, function(err, project) {
+      if (err)
+        res.send(err);
+      // get and return all the project after you create another
+      app.db.models.Project.find(function(err, projects) {
+        if (err)
+          res.send(err)
+        res.json(projects);
+      });
+    });
+  });
+
+  //update a project
+  // main.put('/api/projects/:project_id', function(req, res) {
+
+  //  // use our project model to find the project we want
+  //  Project.findById(req.params.project_id, function(err, project) {
+
+  //    if (err)
+  //      res.send(err);
+
+  //    project.title = req.body.title;   // update the projects info
+
+  //    // save the project
+  //    project.save(function(err) {
+  //      if (err)
+  //        res.send(err);
+
+  //      res.json({ message: 'Project updated!' });
+  //    });
+
+  //  });
+  // });
+
+  //delete a project
+  app.delete('/api/projects/:project_id', function(req, res) {
+    app.db.models.Project.remove({
+      _id : req.params.project_id
+    }, function(err, project) {
+      if (err)
+        res.send(err);
+
+      // get and return all the projects after you create another
+      app.db.models.Project.find(function(err, projects) {
+        if (err)
+          res.send(err)
+        res.json(projects);
+      });
+    });
+  });
   //front end
   app.get('/', require('./views/index').init);
   app.get('/test', require('./views/index2').init);

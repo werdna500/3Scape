@@ -1,10 +1,10 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+'use strict';
 
-var ProjectSchema   = new Schema({
-	creator : { type: Schema.Types.ObjectId, ref: 'User' },
+exports = module.exports = function(app, mongoose) {
+  var projectSchema = new mongoose.Schema({
+    // creator : { type: Schema.Types.ObjectId, ref: 'User' },
 	title : String,
 	// serXML: String
-});
-
-module.exports = mongoose.model('Project', ProjectSchema);
+  });
+  app.db.model('Project', projectSchema);
+};

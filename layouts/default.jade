@@ -6,7 +6,8 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/layouts/core.min.css?#{cacheBreaker}')
     block neck
-  body
+    script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js')
+  body(ng-controller="mainController")
     div.navbar.navbar-default.navbar-fixed-top
       div.container
         div.navbar-header
@@ -19,7 +20,8 @@ html
             span.icon-bar
         div.navbar-collapse.my-navbar-collapse.collapse
           ul.nav.navbar-nav
-            li: a(href='/') Home
+            li: a(href='/test') Back to 3Scape
+            li: a(href='/') Drywall Home
             li: a(href='/about/') About
             li: a(href='/signup/') Sign Up
             li: a(href='/contact/') Contact
