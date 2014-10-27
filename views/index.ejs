@@ -887,7 +887,8 @@
                 //This is changing the background of the slides navbar to active and non active to give it the selected effect.
                 if (!window.WebGLRenderingContext) {
                     // browser supports WebGL
-                    document.location.href = "http://get.webgl.org/";
+                    // ^^ doesn't make sense given previous line conditional - KMC
+                    document.location.href = "/";
                 } else {
                     var canvas = document.getElementById("Canvas");
                     var ctx = canvas.getContext("webgl");
