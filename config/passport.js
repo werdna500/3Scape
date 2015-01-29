@@ -7,7 +7,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 var User            = require('../app/models/user');
 
 // expose this function to our app using module.exports
-module.exports = function(passport) {
+module.exports = function(passport, nodemailer) {
 
     // =========================================================================
     // passport session setup ==================================================
@@ -72,6 +72,31 @@ module.exports = function(passport) {
                         throw err;
                     return done(null, newUser);
                 });
+                async.waterfall([
+                function(newUser, done) {
+                	var smtpTransport = nodemailer.createTransport({
+                		service: 'SendGrid';
+                		auth: {
+                			user: config.smtp_user,
+                			pass: config.smtp_pass
+                		}
+                		});
+                		var mailOptions = {
+                			from: 'kevin@3Scape.me',
+                			to: newUser.email,
+                			subject: '3Scape Password Reset',
+                			text: 'Congratulations on becoming a 3Scaper! Now go forth, be, and create!'
+                		};
+                		smtpTransport.sendMail(mailOptions, function(err, info) {
+                			if (err) {
+                				console.log(err);
+                			}
+                			else {
+                			req.flash('info', 'A welcome email has been sent to ' + newUser.email + '.');
+                			done(err, 'done');
+                			}
+                		});
+                	}
             }
 
         });
